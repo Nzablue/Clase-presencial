@@ -29,7 +29,7 @@ app.get('/jugadores', (req, res) =>{
     const juego = req.query.juego;
     const nivel = req.query.nivel;
     const país = req.query.país;
-    const buscar = req.query.buscar;
+    const nickname = req.query.nickname;
 
     let resultado = jugadores;
 
@@ -54,10 +54,10 @@ app.get('/jugadores', (req, res) =>{
         );
     }
 
-    //buscar por nombre
-    if (buscar) {
+    //buscar por nickname
+    if (nickname) {
         resultado = resultado.filter(j =>
-            j.nombre.toLowerCase().includes(buscar.toLowerCase())
+            j.nickname.toLowerCase().includes(nickname.toLowerCase())
         );
     }
 
