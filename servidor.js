@@ -69,6 +69,44 @@ app.get('/jugadores', (req, res) =>{
     res.json(resultado);
 });
 
+//agregar al servidor .js
+
+let proximoID= 4
+
+//Registrar Nuevo Jugador
+app.post('/jugadores', (req, res) => {
+    const {nickname, juego, nivel, país} = req.body;
+
+    //Validaciones
+    if (!nickname || !juego || !nivel || !país) {
+        return res.status(400).json({ mensaje: 'Todos los campos son obligatorios' });
+    }
+
+
+//verificar que el nickname no esté repetido
+const nicknameExiste = jugadores.find(j =>
+    j.nickname.toLowerCase() === nickname.toLowerCase()
+);
+
+if (nicknameExiste) {
+    return res.status(409).json({ Error: 'Este Nickname ya está en uso' });
+}
+
+const nuevoJugador = {
+    id: proximoID++,
+    nickname: nickname,
+    juego: juego,
+    nivel: nivel,
+    país: país
+};
+
+jugadores.push(nuevoJugador);
+res.status(201).json({
+    mensaje: 'Jugador registrado con éxito en el Torneo',
+    jugador: nuevoJugador
+});
+})
+
 app.listen(3000, () => {
     console.log('API Torneo Gaming en http://localhost:3000');
 });
